@@ -29,7 +29,7 @@ source=("git+https://github.com/zen-browser/desktop.git#tag=$_pkgver"
 sha256sums=('SKIP'
             '5b7d8f37fb1c57aa1a19105ad51d8196fd66e5c09072efb1e1fe2bd2035cd7e0'
             '81a724e7d329def16088c6788c322b4f9e8f016fb876f8a6b0eb88c4e55d93d8'
-            '0411cbd9bc2db18bc6d8a7f5403e478a4f68afc74740ed5a42236fd0c786ae09')
+            '2d6794c776490fc8418a5bfd3999f52f14e318baa1858a22ff02ceef982214d8')
 options=(!strip !debug)
 
 build() {

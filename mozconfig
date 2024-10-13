@@ -22,7 +22,7 @@ ac_add_options --prefix=/usr
 ac_add_options --x-libraries=/usr/lib
 
 # Localization
-ac_add_options --with-l10n-base=browser/locales
+ac_add_options --with-l10n-base="$PWD/browser/locales"
 
 # System libraries
 ac_add_options --with-system-nspr
