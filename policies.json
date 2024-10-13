@@ -1,0 +1,13 @@
+{
+    "policies": {
+      "DisableAppUpdate": true,
+      "SearchEngines": {
+        "Default": "DuckDuckGo",
+      },
+      "DNSOverHTTPS": {
+        "Enabled": true,
+        "Locked": false
+      }
+    }
+  }
+  

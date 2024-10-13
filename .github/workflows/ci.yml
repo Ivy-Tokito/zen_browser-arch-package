@@ -1,0 +1,47 @@
+name: CI
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 16 * * *"
+
+jobs:
+  check:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Should build?
+        id: should_build
+        shell: bash
+        run: |
+          LATEST_TAG="$(curl -s https://api.github.com/repos/zen-browser/desktop/releases/latest | jq -r '.tag_name')"
+          Prev_Tag="$(awk -F '=' 'NR == 3 {print $2}' PKGBUILD)"
+          if [[ "$Prev_Tag" == "$LATEST_TAG" ]]; then
+            echo "SHOULD_BUILD=0" >> $GITHUB_OUTPUT
+          else
+            echo "SHOULD_BUILD=1" >> $GITHUB_OUTPUT
+          fi
+          echo "VERSION=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Clear older runs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run list -L400 --json databaseId -q '.[].databaseId' | tail -n+10 | xargs -IID gh api "repos/$GITHUB_REPOSITORY/actions/runs/ID" -X DELETE || :
+
+    outputs:
+      SHOULD_BUILD: ${{ steps.should_build.outputs.SHOULD_BUILD }}
+      VERSION: ${{ steps.should_build.outputs.VERSION }}
+
+  build:
+    permissions: write-all
+    needs: check
+    uses: ./.github/workflows/build.yml
+    if: ${{ needs.check.outputs.SHOULD_BUILD == 1 }}
+    secrets: inherit
+    with:
+      VERSION:  ${{ needs.check.outputs.VERSION }}
