@@ -44,7 +44,7 @@ build() {
 	# Optimize flags
 	export CFLAGS+=" -O3 -ffp-contract=fast -march=x86-64-v3 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mfma -maes -mpopcnt -mpclmul"
 	export CPPFLAGS+=" -O3 -ffp-contract=fast -march=x86-64-v3 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mfma -maes -mpopcnt -mpclmul"
-	export CXXFLAGS+=" -O3 -flto=full -ffat-lto-objects -ffp-contract=fast -march=x86-64-v3 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mfma -maes -mpopcnt -mpclmul"
+	export CXXFLAGS+=" -O3 -flto=full -ffat-lto-objects -fno-exceptions -ffp-contract=fast -march=x86-64-v3 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mfma -maes -mpopcnt -mpclmul"
 	export LDFLAGS+=" -Wl,-O3 -Wl,-mllvm,-fp-contract=fast -march=x86-64-v3 -Wl,--no-keep-memory"
 	export RUSTFLAGS+=" -C target-cpu=x86-64-v3 -C target-feature=+sse4.1 -C target-feature=+avx2 -C codegen-units=1 -Clink-args=--icf=safe"
 	export POLLY=" -mllvm -polly -mllvm -polly-2nd-level-tiling -mllvm -polly-loopfusion-greedy -mllvm -polly-pattern-matching-based-opts -mllvm -polly-position=before-vectorizer -mllvm -polly-vectorizer=stripmine"
