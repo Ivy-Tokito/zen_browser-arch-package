@@ -54,7 +54,6 @@ build() {
 	export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
 
 	# Get Firefox Source And import Zen Changes
-	npm install pnpm
 	pnpm install
 	pnpm surfer download
 	pnpm surfer import

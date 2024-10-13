@@ -31,6 +31,9 @@ jobs:
           pciutils inetutils jq rsync sccache unzip zip \
           mime-types dbus-glib nss ttf-font
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Build x86_64-v3
         env:
           PKGVER: ${{ inputs.VERSION }}
