@@ -25,14 +25,30 @@ jobs:
 
       - name: Install Dependency
         run: |
-          pacman -Syuu --noconfirm --needed base-devel git clang llvm lld rust bc python npm nodejs \
+          pacman -Syu --noconfirm --needed base-devel git clang llvm lld rust bc python npm nodejs \
           diffutils yasm nasm mesa imake xorg-server-xvfb jack libpulse alsa-lib \
           cbindgen dump_syms wasi-compiler-rt wasi-libc wasi-libc++ wasi-libc++abi \
           pciutils inetutils jq rsync sccache unzip zip \
-          mime-types dbus-glib nss ttf-font gtk3 
+          mime-types dbus-glib nss ttf-font gtk3
+          yes | pacman -Scc
+          npm install -g pnpm
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Create Swap
+        run: |
+          SWAPFILE="$(pwd)/swapfile"
+          fallocate -l 4G $SWAPFILE
+          ls -lh $SWAPFILE
+          chmod 600 $SWAPFILE
+          mkswap $SWAPFILE
+          swapon $SWAPFILE
+          swapon --show
+
+      - name: Save sccache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: /home/runner/.cache/sccache
+          key: linux-sccache
 
       - name: Build x86_64-v3
         env:

@@ -4,7 +4,7 @@ set -e
 
 buildir="$(pwd)"
 
-# create non-privileged user for makepkg
+# Create Non-Privileged user for makepkg
 groupadd sudo
 useradd -G sudo -m user || true
 echo "## Allow user to execute any root command
